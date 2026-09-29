@@ -63,10 +63,10 @@ h2{margin-top:10px;font-family:var(--disp);font-weight:700;font-size:26px;line-h
 /* top */
 .top{padding:12px 20px 8px}
 h3{font-family:var(--disp);font-weight:700;font-size:20px;line-height:1.2}
-.car{margin-top:18px;display:flex;gap:6px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:28px calc(50% - 105px) 34px;margin-left:-20px;margin-right:-20px;cursor:grab;user-select:none;-webkit-user-select:none}
+.car{scroll-behavior:smooth;overscroll-behavior-x:contain;margin-top:18px;display:flex;gap:6px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:28px calc(50% - 105px) 34px;margin-left:-20px;margin-right:-20px;cursor:grab;user-select:none;-webkit-user-select:none}
 .car::-webkit-scrollbar{display:none}
-.car.drag{scroll-snap-type:none;cursor:grabbing}
-.slide{flex:0 0 210px;width:210px;height:210px;scroll-snap-align:center;border-radius:28px;overflow:hidden;transform:scale(.82);opacity:.92;will-change:transform,opacity;box-shadow:0 14px 26px rgba(15,27,45,.22);background:#dfe6f2}
+.car.drag{scroll-behavior:auto;scroll-snap-type:none;cursor:grabbing}
+.slide{flex:0 0 210px;width:210px;height:210px;scroll-snap-align:center;border-radius:28px;overflow:hidden;transform:scale(.82);opacity:.92;will-change:transform,opacity;backface-visibility:hidden;-webkit-backface-visibility:hidden;box-shadow:0 14px 26px rgba(15,27,45,.22);background:#dfe6f2}
 .slide img{display:block;width:100%;height:100%;object-fit:cover;pointer-events:none;-webkit-user-drag:none}
 
 /* promo banner */
@@ -230,7 +230,7 @@ const car=document.getElementById('car'),slides=[...car.querySelectorAll('.slide
 function upd(){
   const c=car.scrollLeft+car.clientWidth/2;
   slides.forEach(s=>{
-    const m=s.offsetLeft+s.offsetWidth/2,d=Math.min(1,Math.abs(c-m)/(s.offsetWidth+6));
+    const m=s.offsetLeft+s.offsetWidth/2,d0=Math.min(1,Math.abs(c-m)/(s.offsetWidth+6)),d=d0*d0*(3-2*d0);
     s.style.transform='scale('+(1.12-0.30*d).toFixed(3)+')';
     s.style.opacity=(1-0.08*d).toFixed(3);
     s.style.zIndex=d<0.5?2:1;
